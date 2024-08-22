@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:8080';
+const API_URL = 'https://lasersa.mdvsh.co';
 
 export async function searchCourses(query) {
   const response = await fetch(`${API_URL}/search?q=${encodeURIComponent(query)}`, {
@@ -12,6 +12,7 @@ export async function searchCourses(query) {
   const data = await response.json();
   return {
     results: data.hits.map(hit => hit.fields),
-    totalHits: data.total_hits
+    totalHits: data.total_hits,
+    timeToQuery: data.took,
   };
 }
