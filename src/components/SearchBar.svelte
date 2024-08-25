@@ -13,7 +13,7 @@
   <input 
     type="text" 
     bind:value={query} 
-    placeholder="Search..."
+    placeholder="Try words, phrases, titles, subjects, course ids, or instructors"
   />
 </form>
 
