@@ -1,6 +1,7 @@
 <script>
   import SearchBar from './components/SearchBar.svelte';
   import SearchResults from './components/SearchResults.svelte';
+  import SearchTips from './components/SearchTips.svelte';
   import { searchCourses } from './lib/api';
 
   let query = '';
@@ -23,6 +24,11 @@
     }
     isLoading = false;
   }
+
+  function handleSelectQuery(event) {
+    query = event.detail;
+    handleSearch();
+  }
 </script>
 
 <main>
@@ -35,6 +41,7 @@
       </svg>
       <SearchBar bind:query on:search={handleSearch} />
     </div>
+    <SearchTips on:selectQuery={handleSelectQuery} />
   </div>
   
   <div class="content">
@@ -47,7 +54,7 @@
         Found {totalHits} results
         <span class="search-time">({searchTime.toFixed(2)} ms)</span>
       </p>
-      <SearchResults {results} {totalHits} />
+      <SearchResults {results} />
     {/if}
   </div>
 </main>
@@ -56,6 +63,7 @@
   main {
     max-width: 1200px;
     margin: 0 auto;
+    padding: 0 1rem;
   }
 
   .header {
@@ -78,8 +86,8 @@
 
   .searchbar-wrapper {
     position: relative;
-    max-width: 400px;
-    margin: 0 auto;
+    max-width: 600px;
+    margin: 0 auto 1rem;
   }
 
   .search-icon {
@@ -98,6 +106,8 @@
     border: none;
     background-color: #f9fafb;
     font-size: 1.1rem;
+    width: 100%;
+    border-radius: 4px;
   }
 
   :global(.searchbar-wrapper input:hover) {
@@ -106,10 +116,11 @@
 
   :global(.searchbar-wrapper input:focus) {
     outline: none;
+    box-shadow: 0 0 0 2px rgba(8, 76, 207, 0.2);
   }
 
   .content {
-    margin-top: -.5rem;
+    margin-top: 1rem;
   }
 
   .loading, .error {
@@ -128,6 +139,7 @@
     padding: 0.25rem 0.5rem;
     border: 1px solid #34d399;
     display: inline-block;
+    border-radius: 4px;
   }
 
   .search-time {
